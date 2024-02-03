@@ -6,6 +6,5 @@ type NewAccountDTO struct {
 }
 
 type NewAccountResponseBody struct {
-	Status  string `json:"status"`
-	Message string `json:"message"`
+	AccessToken string `json:"accessToken"`
 }

@@ -3,18 +3,13 @@ package dto
 type Action struct {
 	Name string `json:"name"`
 }
-
-type Input struct {
-	Args any `json:"args"`
-}
-
-type SessionVariables struct {
-	Role string `json:"x-hasura-role"`
-}
-
 type RequestPayload struct {
-	Action           Action           `json:"action"`
-	Input            Input            `json:"input"`
-	RequestQuery     string           `json:"request_query"`
-	SessionVariables SessionVariables `json:"session_variables"`
+	Action Action `json:"action"`
+	Input  struct {
+		Args map[string]interface{} `json:"args"`
+	} `json:"input"`
+	RequestQuery     string `json:"request_query"`
+	SessionVariables struct {
+		Role string `json:"x-hasura-role"`
+	} `json:"session_variables"`
 }

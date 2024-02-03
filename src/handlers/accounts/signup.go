@@ -2,29 +2,35 @@ package accounts
 
 import (
 	"encoding/json"
-	"fmt"
-	"io"
 	"kast/src/dto"
+	"kast/src/utils"
+	"log"
 	"net/http"
 )
 
 func Signup(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Only POST requests are allowed", http.StatusMethodNotAllowed)
+		http.Error(w, "Route Does not exists", http.StatusMethodNotAllowed)
 		return
 	}
 
-	body, err := io.ReadAll(r.Body)
+	payload := utils.GetRequestPayload(r)
+
+	var newUserInput dto.NewAccountDTO
+	argsJSON, err := json.Marshal(payload.Input.Args)
 	if err != nil {
-		http.Error(w, "Error reading request body", http.StatusInternalServerError)
-		return
+		log.Fatal(err)
+		panic(err)
 	}
 
-	defer r.Body.Close()
+	err = json.Unmarshal(argsJSON, &newUserInput)
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
 
 	response := dto.NewAccountResponseBody{
-		Status:  "success",
-		Message: "Received request successfully",
+		AccessToken: "hello",
 	}
 
 	responseJSON, err := json.Marshal(response)
@@ -32,8 +38,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error encoding response body", http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Println("Received request body:", string(body))
 
 	w.Header().Set("Content-Type", "application/json")
 
