@@ -1,6 +1,10 @@
 cwd:
 	@echo $(BASE_PATH)
 
+server-run:
+	@echo "Running server locally"
+	@go run ./src/main.go
+
 encrypt:
 	@echo "Encrypting the envs"
 	@chmod +x ./scripts/encrypt.envs.sh
@@ -35,6 +39,12 @@ hasura-mig-apply:
 	@echo "Choosen Stage => $(stage)"
 	@hasura --project=$(PWD)/hasura --envfile=$(PWD)/.env.$(stage) migrate apply
 
+hasura-meta-apply:
+	@echo "applying migrations"
+	@echo "Choosen Stage => $(stage)"
+	@hasura --project=$(PWD)/hasura --envfile=$(PWD)/.env.$(stage) metadata apply
+
+
 hasura-mig-apply-version:
 	@echo "Applying spcific migrations"
 	@hasura --project=$(PWD)/hasura --envfile=$(PWD)/.env.$(stage) migrate apply --version $(version)
@@ -42,6 +52,10 @@ hasura-mig-apply-version:
 hasura-mig-rollback-version:
 	@echo "Rolling back spcific migrations"
 	@hasura --project=$(PWD)/hasura --envfile=$(PWD)/.env.$(stage) migrate apply --version $(version) --type down
+
+hasura-mig-rollback-number-of-versions:
+	@echo "Rolling back spcific migrations"
+	@hasura --project=$(PWD)/hasura --envfile=$(PWD)/.env.$(stage) migrate apply down $(count)
 
 hasura-mig-status:
 	@hasura --project=$(PWD)/hasura --envfile=$(PWD)/.env.$(stage) migrate status

@@ -1,6 +1,13 @@
-actions: []
+actions:
+  - name: signup
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_SERVER}}/signup'
+      forward_client_headers: true
 custom_types:
-    enums: []
-    input_objects: []
-    objects: []
-    scalars: []
+  enums: []
+  input_objects:
+    - name: signup_req
+  objects:
+    - name: signup_res
+  scalars: []

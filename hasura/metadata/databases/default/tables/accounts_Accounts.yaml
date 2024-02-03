@@ -1,0 +1,32 @@
+table:
+  name: Accounts
+  schema: accounts
+object_relationships:
+  - name: Role
+    using:
+      foreign_key_constraint_on: role_id
+array_relationships:
+  - name: Account_Profiles
+    using:
+      foreign_key_constraint_on:
+        column: account_id
+        table:
+          name: Account_Profile
+          schema: public
+select_permissions:
+  - role: ADMIN
+    permission:
+      columns:
+        - created_at
+        - email
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      allow_aggregations: true
+      query_root_fields:
+        - select_aggregate
+        - select
+      subscription_root_fields:
+        - select_aggregate
+        - select
+    comment: ""

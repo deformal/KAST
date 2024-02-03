@@ -1,0 +1,22 @@
+table:
+  name: Role
+  schema: accounts
+array_relationships:
+  - name: Accounts
+    using:
+      foreign_key_constraint_on:
+        column: role_id
+        table:
+          name: Accounts
+          schema: accounts
+select_permissions:
+  - role: ADMIN
+    permission:
+      columns:
+        - name
+        - id
+      filter:
+        Accounts:
+          id:
+            _eq: X-Hasura-User-Id
+    comment: ""

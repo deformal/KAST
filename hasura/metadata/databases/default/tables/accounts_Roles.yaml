@@ -1,0 +1,7 @@
+table:
+  name: Roles
+  schema: accounts
+object_relationships:
+  - name: Enum_Role
+    using:
+      foreign_key_constraint_on: name

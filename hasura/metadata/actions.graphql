@@ -1,0 +1,15 @@
+type Mutation {
+  signup(
+    args: signup_req!
+  ): signup_res!
+}
+
+input signup_req {
+  email: String!
+  password: String!
+}
+
+type signup_res {
+  accessToken: String!
+}
+
