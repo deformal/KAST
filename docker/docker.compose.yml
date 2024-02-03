@@ -1,0 +1,35 @@
+version: "3.6"
+
+services:
+  postgres:
+    build:
+      context: $PWD
+      dockerfile: $PWD/docker/postgres/Dockerfile
+    restart: always
+    ports:
+      - 5332:5432
+    env_file: $PWD/.env.development
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+  hasura:
+    build:
+      context: $PWD
+      dockerfile: $PWD/docker/hasura/Dockerfile
+    restart: always
+    ports:
+      - 5380:8080
+    env_file: $PWD/.env.development
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  db_data:

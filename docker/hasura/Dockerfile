@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v2.37.0-ce.cli-migrations-v3
-COPY ./docker/hasura/migrations /migrations
-COPY ./docker/hasura/metadata /metadata
-COPY ./docker/hasura/seeds /seeds
+FROM hasura/graphql-engine:v2.36.1-ce.cli-migrations-v3
+COPY $PWD/hasura/migrations /migrations
+COPY $PWD/hasura/metadata /metadata
+COPY $PWD/hasura/seeds /seeds
